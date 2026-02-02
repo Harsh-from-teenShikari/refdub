@@ -42,7 +42,7 @@ export const CampaignContextProvider = (props) => {
         }
       );
     }
-  });
+  }, [userFinderLoaded, user, activeCompany]);
   
   console.log(activeCampaign);
   
