@@ -225,33 +225,20 @@ export const inviteAffiliate = async (user, companyId, campaignId, emailInvites)
 };
 
 export const verifyReferral = async (referralCode, companyId) => {
-  let referralData = null;
+  // Safe PostgREST value escaping to prevent injection
+  const safeCode = '"' + String(referralCode).replace(/"/g, '\\"') + '"';
+
   let { data } = await supabaseAdmin
     .from('affiliates')
     .select('*')
     .eq('company_id', companyId)
-    .eq('referral_code', referralCode)
+    .or(`referral_code.eq.${safeCode},affiliate_id.eq.${safeCode}`)
     .single();
-  
-  if(data){
-    referralData = data;
-  } else {
-    let { data } = await supabaseAdmin
-      .from('affiliates')
-      .select('*')
-      .eq('company_id', companyId)
-      .eq('affiliate_id', referralCode)
-      .single();
 
-    if(data){
-      referralData = data;
-    }
-  }
-  
-  if (referralData === null) {
-    return "error";
+  if (data) {
+    return data;
   } else {
-    return referralData;
+    return "error";
   }
 };
 
