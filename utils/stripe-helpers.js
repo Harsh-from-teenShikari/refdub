@@ -84,9 +84,7 @@ export const createCommission = async(referralData, stripeId, referralId, email)
         let invoiceLineItems = [];
         
         if(invoice?.paid === false){
-          invoice?.lines?.data?.map(line => {
-            invoiceLineItems?.push(line?.description);
-          })
+          invoiceLineItems = invoice?.lines?.data?.map(line => line.description) || [];
         }
 
         let referralUpdate = await supabaseAdmin
