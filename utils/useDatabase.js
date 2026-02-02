@@ -224,6 +224,24 @@ export const inviteAffiliate = async (user, companyId, campaignId, emailInvites)
   }
 };
 
+export const inviteAffiliatesBulk = async (user, companyId, campaignId, emailInvitesList) => {
+  const dataToInsert = emailInvitesList.map(email => ({
+    id: user?.id,
+    team_id: user?.team_id,
+    company_id: companyId,
+    campaign_id: campaignId,
+    invite_email: email
+  }));
+
+  const { error } = await supabaseAdmin.from('affiliates').insert(dataToInsert);
+
+  if (error) {
+    return "error";
+  } else {
+    return "success";
+  }
+};
+
 export const verifyReferral = async (referralCode, companyId) => {
   let referralData = null;
   let { data } = await supabaseAdmin
