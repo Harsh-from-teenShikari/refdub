@@ -122,19 +122,19 @@ export const createCommission = async(referralData, stripeId, referralId, email)
 
           if(newCommissionValues?.data){
 
-            //Add parameter to Stripe payment intent
-            await stripe.paymentIntents.update(
-              invoice?.payment_intent,
-              {metadata: {reflio_commission_id: newCommissionValues?.data[0]?.commission_id}},
-              {stripeAccount: stripeId}
-            );
-
-            //Add parameter to Stripe invoice
-            await stripe.invoices.update(
-              invoice?.id,
-              {metadata: {reflio_commission_id: newCommissionValues?.data[0]?.commission_id}},
-              {stripeAccount: stripeId}
-            );
+            //Add parameter to Stripe payment intent and invoice in parallel
+            await Promise.all([
+              stripe.paymentIntents.update(
+                invoice?.payment_intent,
+                {metadata: {reflio_commission_id: newCommissionValues?.data[0]?.commission_id}},
+                {stripeAccount: stripeId}
+              ),
+              stripe.invoices.update(
+                invoice?.id,
+                {metadata: {reflio_commission_id: newCommissionValues?.data[0]?.commission_id}},
+                {stripeAccount: stripeId}
+              )
+            ]);
 
             return newCommissionValues?.data[0]?.commission_id;
           }
