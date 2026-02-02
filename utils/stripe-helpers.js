@@ -65,11 +65,12 @@ export const createCommission = async(referralData, stripeId, referralId, email)
         });
 
         if(refunds && refunds?.data?.length > 0){
-          refunds?.data?.map(refund => {
+          invoiceTotal = refunds.data.reduce((acc, refund) => {
             if(refund?.amount > 0){
-              invoiceTotal = parseInt(invoiceTotal - refund?.amount);
+              return parseInt(acc - refund.amount);
             }
-          })
+            return acc;
+          }, invoiceTotal);
         }
         //----END CALCULATE REUNDS----
 
