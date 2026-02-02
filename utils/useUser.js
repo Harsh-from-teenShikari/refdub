@@ -475,3 +475,8 @@ export const uploadLogoImage = async (companyId, file) => {
   
   return data;
 };
+// STUBBED FUNCTIONS TO FIX BUILD
+export const getSubmissions = async (userId, limit, offset) => {
+  console.error('getSubmissions is not implemented');
+  return [];
+};
