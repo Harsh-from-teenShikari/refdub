@@ -5,9 +5,6 @@ module.exports = removeImports({
   images: {
     domains: ['s2.googleusercontent.com', 'loom.com'],
   },
-  future: {
-    webpack5: true,
-  },
   webpack: (config) => {
     config.module.rules.push({
       test: /\.html$/,

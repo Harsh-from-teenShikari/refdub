@@ -398,3 +398,43 @@ export const deleteIntegrationFromDB = async (stripeId) => {
   .eq({ stripe_id: stripeId })
   if (error) return "error";
 };
+// STUBBED FUNCTIONS TO FIX BUILD
+export const acceptInvite = async (email, teamId, user) => {
+  console.error('acceptInvite is not implemented');
+  return 'error';
+};
+
+export const checkTeamInvites = async (email) => {
+  console.error('checkTeamInvites is not implemented');
+  return [];
+};
+
+export const editTeam = async (teamId, name) => {
+  console.error('editTeam is not implemented');
+  return 'error';
+};
+
+export const teamData = async (teamId) => {
+  console.error('teamData is not implemented');
+  return null;
+};
+
+export const getTeamName = async (teamId) => {
+  console.error('getTeamName is not implemented');
+  return null;
+};
+
+export const getTeamUsage = async (teamId) => {
+  console.error('getTeamUsage is not implemented');
+  return null;
+};
+
+export const updateAccountStripeData = async (companyId, data) => {
+  console.error('updateAccountStripeData is not implemented');
+  return 'error';
+};
+
+export const checkoutSessionComplete = async (session) => {
+  console.error('checkoutSessionComplete is not implemented');
+  return 'error';
+};
