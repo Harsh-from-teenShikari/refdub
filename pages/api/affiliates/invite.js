@@ -1,5 +1,5 @@
 import { getUser } from '@/utils/supabase-admin';
-import { inviteAffiliate } from '@/utils/useDatabase';
+import { inviteAffiliate, inviteAffiliatesBulk } from '@/utils/useDatabase';
 import { sendEmail } from '@/utils/sendEmail';
 
 // companyId: activeCompany?.company_id,
@@ -33,13 +33,13 @@ const inviteUser = async (req, res) => {
             const email = await sendEmail(emailSubject, emailContent, emailInvites, 'invite', companyName);
           }
         } else {
-          await Promise.all(emailInvitesSplit?.map(async (inviteEmail) => {
-            const invite = await inviteAffiliate(user, companyId, campaignId, inviteEmail);
+          const invite = await inviteAffiliatesBulk(user, companyId, campaignId, emailInvitesSplit);
 
-            if(invite === "success"){
+          if(invite === "success"){
+            await Promise.all(emailInvitesSplit?.map(async (inviteEmail) => {
               const email = await sendEmail(emailSubject, emailContent, inviteEmail, 'invite', companyName);
-            }
-          }));
+            }));
+          }
         }
 
         return res.status(200).json({ response: 'success' });
