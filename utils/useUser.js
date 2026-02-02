@@ -269,14 +269,13 @@ export const newCampaign = async (user, form, companyId) => {
   }
   
   if(formFields.default_campaign && formFields.default_campaign === true && data?.length > 0){
-    data?.map(async campaign => {
-      await supabase
-        .from('campaigns')
-        .update({
-          default_campaign: false
-        })
-        .eq('campaign_id', campaign?.campaign_id);
-    })
+    await supabase
+      .from('campaigns')
+      .update({
+        default_campaign: false
+      })
+      .eq('company_id', companyId)
+      .eq('default_campaign', true);
   }
 
   const { error } = await supabase.from('campaigns').insert(formFields);
