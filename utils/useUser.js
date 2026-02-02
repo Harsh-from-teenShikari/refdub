@@ -202,22 +202,13 @@ export const newCompany = async (user, form) => {
 };
 
 export const handleActiveCompany = async (switchedCompany) => {
-  let { data } = await supabase
+  await supabase
     .from('companies')
-    .select('*')
+    .update({
+      active_company: false
+    })
     .eq('active_company', true);
 
-  if(data){
-    data?.map(async company => {
-      await supabase
-        .from('companies')
-        .update({
-          active_company: false
-        })
-        .eq('company_id', company?.company_id);
-    })
-  }
-    
   let { error } = await supabase
     .from('companies')
     .update({
