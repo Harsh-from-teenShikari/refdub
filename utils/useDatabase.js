@@ -94,19 +94,24 @@ export const manageSubscriptionStatusChange = async (
   createAction = false
 ) => {
   // Get customer's teamId from mapping table.
-  const {
-    data: { team_id: teamId, user_id: userId },
-    error: noCustomerError
-  } = await supabaseAdmin
+  const customerPromise = supabaseAdmin
     .from('customers')
     .select('team_id, user_id')
     .eq('stripe_customer_id', customerId)
     .single();
-  if (noCustomerError) throw noCustomerError;
 
-  const subscription = await stripe.subscriptions.retrieve(subscriptionId, {
+  const subscriptionPromise = stripe.subscriptions.retrieve(subscriptionId, {
     expand: ['default_payment_method']
   });
+
+  const [customerResult, subscription] = await Promise.all([
+    customerPromise,
+    subscriptionPromise
+  ]);
+
+  if (customerResult.error) throw customerResult.error;
+
+  const { team_id: teamId, user_id: userId } = customerResult.data;
   // Upsert the latest status of the subscription object.
   const subscriptionData = {
     user_id: userId,
