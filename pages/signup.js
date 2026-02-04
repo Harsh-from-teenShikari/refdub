@@ -128,10 +128,10 @@ const SignUp = () => {
             <div className="mt-3 text-center text-sm">
               <span className="text-accents-2">Already have an account?</span>
               {` `}
-              <Link href="/signin">
-                <a className="text-accents-1 font-bold hover:underline cursor-pointer">
-                  Sign in.
-                </a>
+              <Link
+                href="/signin"
+                className="text-accents-1 font-bold hover:underline cursor-pointer">
+                Sign in.
               </Link>
             </div>
 

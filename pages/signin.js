@@ -126,20 +126,20 @@ const SignIn = () => {
                 <div className="mt-3 text-center text-sm">
                   <span className="text-accents-2">Don't have an account?</span>
                   {` `}
-                  <Link href="/signup">
-                    <a className="text-accents-1 font-bold hover:underline cursor-pointer">
-                      Sign up.
-                    </a>
+                  <Link
+                    href="/signup"
+                    className="text-accents-1 font-bold hover:underline cursor-pointer">
+                    Sign up.
                   </Link>
                 </div>
 
                 <div className="mt-1 text-center text-sm">
                   <span className="text-accents-2">Forgot your password?</span>
                   {` `}
-                  <Link href="/reset-password">
-                    <a className="text-accents-1 font-bold hover:underline cursor-pointer">
-                      Reset here.
-                    </a>
+                  <Link
+                    href="/reset-password"
+                    className="text-accents-1 font-bold hover:underline cursor-pointer">
+                    Reset here.
                   </Link>
                 </div>
 

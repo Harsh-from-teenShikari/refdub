@@ -24,12 +24,8 @@ export default function Navbar() {
           <div className="flex justify-between">
             <div className="flex">
               <div className="flex-shrink-0 flex items-center">
-                <Link
-                  href="/"
-                >
-                  <a>
-                    <Logo className="h-8 lg:h-10 w-auto"/>
-                  </a>
+                <Link href="/">
+                  <Logo className="h-8 lg:h-10 w-auto"/>
                 </Link>
               </div>
             </div>

@@ -61,10 +61,8 @@ export default function AdminMobileNav() {
                 </div>
               </Transition.Child>
               <div className="flex-shrink-0 flex items-center px-4">
-                <Link href="/dashboard">
-                  <a className="block m-auto">
-                    <Logo className="h-7 w-full"/>
-                  </a>
+                <Link href="/dashboard" className="block m-auto">
+                  <Logo className="h-7 w-full"/>
                 </Link>
               </div>
               <AdminNavItems/>
@@ -86,10 +84,8 @@ export default function AdminMobileNav() {
         </button>
         <div className="flex justify-center lg:justify-end w-full px-6">
           <div className="flex-shrink-0 flex lg:hidden items-center px-4">
-            <Link href="/dashboard">
-              <a className="block m-auto">
-                <Logo className="h-7 w-full"/>
-              </a>
+            <Link href="/dashboard" className="block m-auto">
+              <Logo className="h-7 w-full"/>
             </Link>
           </div>
 
