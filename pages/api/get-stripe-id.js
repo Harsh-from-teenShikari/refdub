@@ -1,9 +1,9 @@
-import { stripe } from '@/utils/stripe';
+import { getOAuthToken } from '@/lib/payments';
 
 const getAccountIdFromToken = async (req, res) => {
   if (req.method === 'POST') {
     try {
-      const response = await stripe.oauth.token({
+      const response = await getOAuthToken({
         grant_type: 'authorization_code',
         code: req.body.stripeCode
       });

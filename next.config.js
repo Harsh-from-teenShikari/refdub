@@ -1,12 +1,12 @@
 const removeImports = require("next-remove-imports")();
 
 module.exports = removeImports({
-  experimental: { esmExternals: true },
+  experimental: {
+    esmExternals: true,
+    appDir: false
+  },
   images: {
     domains: ['s2.googleusercontent.com', 'loom.com'],
-  },
-  future: {
-    webpack5: true,
   },
   webpack: (config) => {
     config.module.rules.push({

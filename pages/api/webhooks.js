@@ -1,4 +1,4 @@
-import { stripe } from '@/utils/stripe';
+import { constructWebhookEvent } from '@/lib/payments';
 import {
   upsertProductRecord,
   upsertPriceRecord,
@@ -40,7 +40,7 @@ const webhookHandler = async (req, res) => {
     let event;
 
     try {
-      event = stripe.webhooks.constructEvent(buf, sig, process.env.STRIPE_WEBHOOK_SECRET);
+      event = constructWebhookEvent(buf, sig, process.env.STRIPE_WEBHOOK_SECRET);
     } catch (err) {
       console.log(`❌ Error message: ${err.message}`);
       return res.status(400).send(`Webhook Error: ${err.message}`);
