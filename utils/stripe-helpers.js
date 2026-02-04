@@ -1,8 +1,16 @@
 import { supabaseAdmin } from './supabase-admin';
-import { stripe } from './stripe';
+import {
+  listCustomers,
+  listPaymentIntents,
+  retrieveInvoice,
+  listRefunds,
+  updatePaymentIntent,
+  updateInvoice,
+  updateCustomer
+} from '@/lib/payments';
 
 export const createCommission = async(referralData, stripeId, referralId, email) => {
-  const customer = await stripe.customers.list({
+  const customer = await listCustomers({
     email: email,
     limit: 1,
   }, {
@@ -16,7 +24,7 @@ export const createCommission = async(referralData, stripeId, referralId, email)
 
     // if(!customer?.data[0]?.metadata?.reflio_referral_id){
     //   //Add parameter to Stripe customer
-    //   await stripe.customers.update(
+    //   await updateCustomer(
     //     customer?.data[0]?.id,
     //     {metadata: {reflio_referral_id: referralData?.data?.referral_id}},
     //     {stripeAccount: stripeId}
@@ -27,7 +35,7 @@ export const createCommission = async(referralData, stripeId, referralId, email)
     // }
 
     if(customer?.data[0]?.email === email){
-      const paymentIntent = await stripe.paymentIntents.list({
+      const paymentIntent = await listPaymentIntents({
         customer: customer?.data[0]?.id,
         limit: 1,
       }, {
@@ -49,7 +57,7 @@ export const createCommission = async(referralData, stripeId, referralId, email)
       }
 
       if(paymentIntent?.data[0]?.invoice){
-        const invoice = await stripe.invoices.retrieve(
+        const invoice = await retrieveInvoice(
           paymentIntent?.data[0]?.invoice,
           {stripeAccount: stripeId}
         );
@@ -57,7 +65,7 @@ export const createCommission = async(referralData, stripeId, referralId, email)
         let invoiceTotal = invoice?.total;
 
         //----CALCULATE REUNDS----
-        const refunds = await stripe.refunds.list({
+        const refunds = await listRefunds({
           payment_intent: invoice?.payment_intent,
           limit: 10,
         }, {
@@ -123,14 +131,14 @@ export const createCommission = async(referralData, stripeId, referralId, email)
           if(newCommissionValues?.data){
 
             //Add parameter to Stripe payment intent
-            await stripe.paymentIntents.update(
+            await updatePaymentIntent(
               invoice?.payment_intent,
               {metadata: {reflio_commission_id: newCommissionValues?.data[0]?.commission_id}},
               {stripeAccount: stripeId}
             );
 
             //Add parameter to Stripe invoice
-            await stripe.invoices.update(
+            await updateInvoice(
               invoice?.id,
               {metadata: {reflio_commission_id: newCommissionValues?.data[0]?.commission_id}},
               {stripeAccount: stripeId}

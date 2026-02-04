@@ -1,4 +1,4 @@
-import { stripe } from '@/utils/stripe';
+import { constructWebhookEvent } from '@/lib/payments';
 import {
   deleteIntegrationFromDB,
   updateAccountStripeData,
@@ -35,7 +35,7 @@ const customerEvents = async (req, res) => {
     let event;
 
     try {
-      event = stripe.webhooks.constructEvent(buf, sig, webhookSecret);
+      event = constructWebhookEvent(buf, sig, webhookSecret);
     } catch (err) {
       console.log(`❌ Error message: ${err.message}`);
       return res.status(400).send(`Webhook Error: ${err.message}`);

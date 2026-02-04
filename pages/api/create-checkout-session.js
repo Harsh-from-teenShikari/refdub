@@ -1,4 +1,4 @@
-import { stripe } from '@/utils/stripe';
+import { createSubscription } from '@/lib/payments';
 import { getUser } from '@/utils/supabase-admin';
 import { createOrRetrieveCustomer } from '@/utils/useDatabase';
 import { getURL } from '@/utils/helpers';
@@ -16,22 +16,11 @@ const createCheckoutSession = async (req, res) => {
         email: user.email
       });
 
-      const session = await stripe.checkout.sessions.create({
-        payment_method_types: ['card'],
-        billing_address_collection: 'required',
+      const session = await createSubscription({
         customer,
-        line_items: [
-          {
-            price,
-            quantity
-          }
-        ],
-        mode: 'subscription',
-        allow_promotion_codes: true,
-        subscription_data: {
-          trial_from_plan: true,
-          metadata
-        },
+        price,
+        quantity,
+        metadata,
         success_url: `${getURL()}/dashboard`,
         cancel_url: `${getURL()}/`
       });

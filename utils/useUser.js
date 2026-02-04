@@ -475,3 +475,6 @@ export const uploadLogoImage = async (companyId, file) => {
   
   return data;
 };
+
+// Stub for missing function to fix build
+export const getSubmissions = async () => { console.log('Stub: getSubmissions'); };

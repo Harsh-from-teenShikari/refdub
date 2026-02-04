@@ -1,4 +1,4 @@
-import { stripe } from '@/utils/stripe';
+import { createPortalSession } from '@/lib/payments';
 import { getUser } from '@/utils/supabase-admin';
 import { createOrRetrieveCustomer } from '@/utils/useDatabase';
 import { getURL } from '@/utils/helpers';
@@ -14,7 +14,7 @@ const createPortalLink = async (req, res) => {
         email: user.email
       });
 
-      const { url } = await stripe.billingPortal.sessions.create({
+      const { url } = await createPortalSession({
         customer,
         return_url: `${getURL()}/dashboard`
       });

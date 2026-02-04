@@ -1,11 +1,9 @@
-import { stripe } from '@/utils/stripe';
+import { retrieveAccount } from '@/lib/payments';
 
 const getAccountDetails = async (req, res) => {
   if (req.method === 'POST') {
     try {
-      const account = await stripe.accounts.retrieve({
-        stripeAccount: req.body.accountId
-      });
+      const account = await retrieveAccount(req.body.accountId);
       console.log('data here 2')
       console.log(account)
       return res.status(200).json({ data: account });
